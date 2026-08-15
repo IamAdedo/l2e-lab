@@ -13,7 +13,9 @@ The browser uses Firebase Anonymous Authentication. Candidates still see only th
 
 4. If the app is deployed on a new domain, add that domain under **Authentication > Settings > Authorized domains**.
 
-Learner records appear in **Firestore Database > Data > learners**. Each document ID is the learner's anonymous Firebase UID. The web client may get, create, and update only its own document; collection listing, other learners' documents, deletes, and every other Firestore path are denied. Firebase Console access uses the project owner's Google permissions, so it is not blocked by these client rules.
+Learner records appear in **Firestore Database > Data > learners**. Open a document and read its **displayName** field to see the username beside progress and visit timestamps. Each document ID is the learner's anonymous Firebase UID. The app also copies the username into the Firebase Auth profile's display name, but the provider will correctly remain labelled **Anonymous**. Existing profiles receive their display name the next time that browser visits the lab.
+
+The web client may get, create, and update only its own document; collection listing, other learners' documents, deletes, and every other Firestore path are denied. Firebase Console access uses the project owner's Google permissions, so it is not blocked by these client rules.
 
 Anonymous identity belongs to one browser profile, not to a verified person: the same candidate on two devices can appear twice, and clearing all site data can create a new UID. This phase is intended for lightweight participation tracking. Add a permanent sign-in method later if learners need cross-device identity or account recovery.
 

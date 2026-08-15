@@ -97,7 +97,7 @@ export async function syncLearnerProgress(input: LearnerSyncInput): Promise<Lear
   const displayName = cleanDisplayName(input.displayName)
 
   try {
-    const [{ db }, session, firestoreSdk] = await Promise.all([
+    const [{ auth, db }, session, firestoreSdk] = await Promise.all([
       getFirebaseClient(),
       bootstrapAnonymousLearner(),
       import('firebase/firestore'),
@@ -144,6 +144,17 @@ export async function syncLearnerProgress(input: LearnerSyncInput): Promise<Lear
 
       return { dailyProgress, finishedProjectIds, created: !snapshot.exists() }
     })
+
+    const authUser = auth.currentUser
+    if (authUser?.uid === session.uid && authUser.displayName !== displayName) {
+      try {
+        const { updateProfile } = await import('firebase/auth')
+        await updateProfile(authUser, { displayName })
+      } catch {
+        // Firestore is the source used for the learner list. A profile update
+        // failure must never block progress that was already saved there.
+      }
+    }
 
     return {
       session,
