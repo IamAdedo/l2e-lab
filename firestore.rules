@@ -1,0 +1,104 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAnonymousOwner(uid) {
+      return request.auth != null
+        && request.auth.uid == uid
+        && request.auth.token.firebase.sign_in_provider == 'anonymous';
+    }
+
+    function hasLearnerFields(data) {
+      return data.keys().hasAll([
+          'uid',
+          'displayName',
+          'displayNameLower',
+          'schemaVersion',
+          'firstSeenAt',
+          'lastSeenAt',
+          'dailyProgress',
+          'finishedProjectIds'
+        ])
+        && data.keys().hasOnly([
+          'uid',
+          'displayName',
+          'displayNameLower',
+          'schemaVersion',
+          'firstSeenAt',
+          'lastSeenAt',
+          'dailyProgress',
+          'finishedProjectIds'
+        ]);
+    }
+
+    function validCompletedDays(days) {
+      return days is list
+        && days.size() <= 100
+        && days.hasOnly([
+          1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+          11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+          21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+          31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+          41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
+          51, 52, 53, 54, 55, 56, 57, 58, 59, 60,
+          61, 62, 63, 64, 65, 66, 67, 68, 69, 70,
+          71, 72, 73, 74, 75, 76, 77, 78, 79, 80,
+          81, 82, 83, 84, 85, 86, 87, 88, 89, 90,
+          91, 92, 93, 94, 95, 96, 97, 98, 99, 100
+        ]);
+    }
+
+    function validDailyProgress(progress) {
+      return progress is map
+        && progress.keys().hasAll(['python', 'react', 'javascript'])
+        && progress.keys().hasOnly(['python', 'react', 'javascript'])
+        && validCompletedDays(progress.python)
+        && validCompletedDays(progress.react)
+        && validCompletedDays(progress.javascript);
+    }
+
+    function validLearner(data, uid) {
+      return hasLearnerFields(data)
+        && data.uid is string
+        && data.uid == uid
+        && data.displayName is string
+        && data.displayName.size() >= 1
+        && data.displayName.size() <= 40
+        && data.displayNameLower is string
+        && data.displayNameLower.size() >= 1
+        && data.displayNameLower.size() <= 40
+        && data.schemaVersion is int
+        && data.schemaVersion == 1
+        && data.firstSeenAt is timestamp
+        && data.lastSeenAt is timestamp
+        && validDailyProgress(data.dailyProgress)
+        && data.finishedProjectIds is list
+        && data.finishedProjectIds.size() <= 100;
+    }
+
+    match /learners/{uid} {
+      // A learner can load their own progress document, never the collection.
+      allow get: if isAnonymousOwner(uid);
+      allow list: if false;
+
+      allow create: if isAnonymousOwner(uid)
+        && validLearner(request.resource.data, uid)
+        && request.resource.data.firstSeenAt == request.time
+        && request.resource.data.lastSeenAt == request.time;
+
+      allow update: if isAnonymousOwner(uid)
+        && validLearner(request.resource.data, uid)
+        && request.resource.data.uid == resource.data.uid
+        && request.resource.data.schemaVersion == resource.data.schemaVersion
+        && request.resource.data.firstSeenAt == resource.data.firstSeenAt
+        && request.resource.data.lastSeenAt == request.time;
+
+      allow delete: if false;
+    }
+
+    // Everything not explicitly allowed above stays private.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
