@@ -5,7 +5,6 @@ import {
   Check,
   CheckCircle2,
   Clock3,
-  Code2,
   Edit3,
   Flame,
   FolderClock,
@@ -21,6 +20,8 @@ import {
 import { Link } from 'react-router-dom'
 import { publicProjects } from '../../public/data'
 import { usePublicProgress } from '../../public/PublicProgressContext'
+import { useAchievementNotifications } from '../../hooks/useAchievementNotifications'
+import { evaluateBadges, evaluateAchievements } from '../../public/achievements'
 import { hasProjectDraft } from '../../public/runtime/storage'
 import { PublicProjectCard, TrackIcon, trackClass, trackName } from '../../public/PublicCards'
 import type { LearningTrack } from '../../public/types'
@@ -29,6 +30,7 @@ const tracks: LearningTrack[] = ['python', 'react', 'javascript']
 
 export function MyLearningPage() {
   const { displayName, setDisplayName, finishedProjectIds, dailyProgress, submissions, likedShowcaseIds } = usePublicProgress()
+  useAchievementNotifications()
   const [editingName, setEditingName] = useState(false)
   const [nameDraft, setNameDraft] = useState(displayName)
 
@@ -37,6 +39,9 @@ export function MyLearningPage() {
   const completedChallenges = tracks.reduce((total, track) => total + dailyProgress[track].length, 0)
   const projectPercent = Math.round((finishedProjects.length / publicProjects.length) * 100)
   const totalActivity = finishedProjects.length + inProgressProjects.length + completedChallenges + submissions.length
+  const snapshot = useMemo(() => ({ displayName, finishedProjectIds, dailyProgress, submissions, likedShowcaseIds }), [displayName, finishedProjectIds, dailyProgress, submissions, likedShowcaseIds])
+  const earnedBadges = useMemo(() => evaluateBadges(snapshot).filter((b) => b.earned), [snapshot])
+  const earnedAchievements = useMemo(() => evaluateAchievements(snapshot).filter((a) => a.earned), [snapshot])
 
   function saveName() {
     const nextName = nameDraft.trim()
@@ -64,6 +69,21 @@ export function MyLearningPage() {
           <article><span className="pl-learning-stats__icon pl-learning-stats__icon--purple"><UploadCloud size={20} /></span><div><strong>{submissions.length}</strong><p>Local publications</p><small>Visible on this device</small></div><i><span style={{ width: `${Math.min(100, submissions.length * 15)}%` }} /></i></article>
           <article><span className="pl-learning-stats__icon pl-learning-stats__icon--pink"><Heart size={20} /></span><div><strong>{likedShowcaseIds.length}</strong><p>Builds appreciated</p><small>Likes you left locally</small></div><i><span style={{ width: `${Math.min(100, likedShowcaseIds.length * 12)}%` }} /></i></article>
         </div>
+
+        {earnedAchievements.length > 0 && (
+          <section className="pl-achievements-teaser">
+            <div className="pl-card pl-achievements-teaser__card">
+              <div className="pl-achievements-teaser__art"><span><Trophy size={34} /></span></div>
+              <div className="pl-achievements-teaser__content">
+                <strong>{earnedBadges.length} badges earned</strong>
+                <p>You've unlocked {earnedAchievements.length} achievements. Keep building to earn more!</p>
+                <Link className="pl-button pl-button--secondary" to="/achievements">
+                  View achievements <ArrowRight size={14} />
+                </Link>
+              </div>
+            </div>
+          </section>
+        )}
 
         {totalActivity === 0 ? (
           <div className="pl-learning-empty">

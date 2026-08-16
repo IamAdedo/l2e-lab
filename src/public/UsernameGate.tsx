@@ -1,6 +1,7 @@
 import { useEffect, useId, useRef, useState, type FormEvent } from 'react'
 import { ArrowRight, Code2, ShieldCheck, UserRound, X } from 'lucide-react'
 import { Brand } from '../components/Brand'
+import { useToasts } from '../context/ToastContext'
 import './username-gate.css'
 
 type UsernameGateProps = {
@@ -17,6 +18,7 @@ export function UsernameGate({ destinationLabel, onConfirm, onCancel }: Username
   const titleId = useId()
   const descriptionId = useId()
   const errorId = useId()
+  const { notify } = useToasts()
 
   useEffect(() => {
     const previousOverflow = document.body.style.overflow
@@ -62,6 +64,7 @@ export function UsernameGate({ destinationLabel, onConfirm, onCancel }: Username
       return
     }
     onConfirm(cleaned)
+    notify(`Welcome, @${cleaned}! Your name is now saved on this device.`, 'success')
   }
 
   return (

@@ -4,6 +4,7 @@ import { Link, Navigate, useParams } from 'react-router-dom'
 import { getDailyChallenge, learningTrackMeta } from '../../public/data'
 import { TrackIcon, trackClass } from '../../public/PublicCards'
 import { usePublicProgress } from '../../public/PublicProgressContext'
+import { useAchievementNotifications } from '../../hooks/useAchievementNotifications'
 import { PythonWorkbench } from '../../public/runtime/PythonWorkbench'
 import { clearDailyDraft, getDailyDraft, saveDailyDraft } from '../../public/runtime/storage'
 import type { StarterFile } from '../../public/types'
@@ -22,6 +23,7 @@ export function DailyChallengeWorkspacePage() {
   const day = Number(params.day)
   const challenge = useMemo(() => track && Number.isInteger(day) ? getDailyChallenge(track, day) : undefined, [day, track])
   const progress = usePublicProgress()
+  useAchievementNotifications()
   const [files, setFiles] = useState<StarterFile[]>(() => challenge ? cloneFiles(getDailyDraft(challenge.track, challenge.day)?.files ?? challenge.starterFiles) : [])
   const [results, setResults] = useState<ChallengeResult[]>([])
   const [hintsOpen, setHintsOpen] = useState(false)

@@ -98,6 +98,14 @@ type NameGateRoute = {
   cancelTo: string
 }
 
+function decodeURIComponentSafe(input: string): string {
+  try {
+    return decodeURIComponent(input)
+  } catch {
+    return input
+  }
+}
+
 function nameGateForPath(pathname: string): NameGateRoute | null {
   const cleanPath = pathname.replace(/\/+$/, '') || '/'
   if (cleanPath === '/daily/python' || cleanPath.startsWith('/daily/python/')) {
@@ -109,13 +117,9 @@ function nameGateForPath(pathname: string): NameGateRoute | null {
 
   const projectBuildMatch = cleanPath.match(/^\/projects\/([^/]+)\/build$/)
   if (!projectBuildMatch) return null
-  let slug = projectBuildMatch[1]
-  try {
-    slug = decodeURIComponent(slug)
-  } catch {
-    return null
-  }
-  const project = getProjectBySlug(slug)
+  const rawSlug = projectBuildMatch[1]
+  const slug = decodeURIComponentSafe(rawSlug)
+  const project = getProjectBySlug(slug) ?? getProjectBySlug(rawSlug)
   if (project?.track !== 'python') return null
   return { destinationLabel: `${project.title} workspace`, cancelTo: `/projects/${project.slug}` }
 }
@@ -363,6 +367,7 @@ export function PublicProgressProvider({ children }: { children: ReactNode }) {
   )
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function usePublicProgress(): PublicProgressContextValue {
   const value = useContext(PublicProgressContext)
   if (!value) throw new Error('usePublicProgress must be used inside PublicProgressProvider')

@@ -65,7 +65,7 @@ export function PublicProjectsPage() {
     setSearchParams({})
   }
 
-  const hasFilters = Boolean(query) || track !== 'all' || difficulty !== 'all' || status !== 'all'
+  const _hasFilters = Boolean(query) || track !== 'all' || difficulty !== 'all' || status !== 'all'
 
   return (
     <div className="pl-library">

@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { BookOpenCheck, Braces, Copy, Eye, Filter, FolderOpen, MoreHorizontal, Plus, Search, Tag, Trash2 } from 'lucide-react'
+import { BookOpenCheck, Braces, Copy, Eye, Filter, FolderOpen, MoreHorizontal, Plus, Search, Tag } from 'lucide-react'
 import { questionBank } from '../../data'
 import { useApp } from '../../context/AppContext'
 import { Button, Modal, StatusBadge } from '../../components/UI'

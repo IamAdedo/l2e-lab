@@ -1,5 +1,5 @@
 import { useMemo, useState, type FormEvent } from 'react'
-import { AlertTriangle, Check, ChevronDown, Download, KeyRound, Mail, MoreHorizontal, Plus, Search, SlidersHorizontal, Upload, UserPlus, UsersRound, X } from 'lucide-react'
+import { AlertTriangle, Check, Download, KeyRound, Mail, MoreHorizontal, Search, SlidersHorizontal, Upload, UserPlus, UsersRound, X } from 'lucide-react'
 import { campuses, cohorts, students as seedStudents } from '../../data'
 import { useApp } from '../../context/AppContext'
 import { Avatar, Button, Modal, ProgressBar, StatusBadge } from '../../components/UI'

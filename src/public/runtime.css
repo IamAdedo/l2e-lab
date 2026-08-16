@@ -690,3 +690,31 @@
   .python-file-label i { display: none; }
   .ide-code-panel .python-workbench__topbar { min-height: 78px; padding: 9px; }
 }
+
+/* Achievements & Badges */
+.achievements-page { padding: 40px 0 80px; }
+.achievements-hero { margin-bottom: 32px; }
+.achievements-hero span { display: flex; align-items: center; gap: 8px; color: #3b82f6; font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.achievements-hero h1 { margin: 10px 0 8px; color: #1e2939; font-size: clamp(32px, 5vw, 46px); letter-spacing: -.04em; }
+.achievements-hero p { margin: 0; color: #64748b; font-size: 15px; line-height: 1.6; }
+.earned-count { display: flex; align-items: center; gap: 6px; color: #059669; font-size: 13px; font-weight: 700; }
+
+.achievements-summary { display: flex; gap: 16px; margin-bottom: 32px; flex-wrap: wrap; }
+.achievement-stat { flex: 1; min-width: 140px; padding: 18px; border: 1px solid #e2e8f0; border-radius: 14px; background: #fff; text-align: center; }
+.achievement-stat strong { display: block; font-size: 24px; color: #1e2939; }
+.achievement-stat span { color: #7c8798; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+
+.badge-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+.badge-card { padding: 18px; display: flex; flex-direction: column; align-items: center; text-align: center; border: 1px solid #e2e8f0; border-radius: 14px; background: #fff; box-shadow: 0 4px 14px rgba(24, 54, 96, .03); transition: transform .18s ease; }
+.badge-card:hover { transform: translateY(-2px); }
+.badge-card.is-locked { opacity: .45; filter: grayscale(1); }
+.badge-card__icon { font-size: 32px; margin-bottom: 10px; }
+.badge-card__title { margin: 0 0 6px; font-size: 14px; font-weight: 700; color: #1e2939; }
+.badge-card__desc { margin: 0; flex: 1; color: #64748b; font-size: 11px; line-height: 1.5; }
+.badge-card__progress { margin-top: 10px; width: 100%; height: 5px; border-radius: 10px; background: #e2e8f0; overflow: hidden; }
+.badge-card__progress > span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+.badge-card__tier { margin-top: 6px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
+.badge-card__tier--bronze { color: #92400e; }
+.badge-card__tier--silver { color: #475569; }
+.badge-card__tier--gold { color: #ca8a04; }
+.badge-card.is-locked .badge-card__tier { color: #94a3b8; }

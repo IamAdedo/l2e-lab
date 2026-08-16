@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { ArrowRight, Award, BarChart3, CheckCircle2, Clock3, Medal, Sparkles, Target, TrendingUp } from 'lucide-react'
+import { ArrowRight, Award, BarChart3, CheckCircle2, Clock3, Medal, Sparkles, TrendingUp } from 'lucide-react'
 import { assessments, performanceByTopic, submissions } from '../../data'
 import { Button, ProgressBar, StatusBadge } from '../../components/UI'
 

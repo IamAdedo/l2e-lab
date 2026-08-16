@@ -6,7 +6,6 @@ import {
   CalendarClock,
   CheckCircle2,
   ChevronDown,
-  Clock3,
   Copy,
   Edit3,
   Eye,

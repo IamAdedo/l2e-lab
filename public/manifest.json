@@ -1,0 +1,24 @@
+{
+  "name": "L2E LAB — Learn2Earn Learning Workspace",
+  "short_name": "L2E LAB",
+  "description": "A public, password-free browser-based learning workspace for Python programming.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f5f8fc",
+  "theme_color": "#0866e8",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/learn2earn-logo.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/learn2earn-logo.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}
