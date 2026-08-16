@@ -33,7 +33,7 @@ export function LoginPage({ onLogin }: { onLogin: (username: string) => void }) 
     window.setTimeout(() => onLogin(username.trim()), 650)
   }
 
-  const useDemo = (role: 'student' | 'admin') => {
+  const demoLogin = (role: 'student' | 'admin') => {
     setUsername(role === 'admin' ? 'admin' : 'amara.okafor')
     setPassword('lab2026')
     setError('')
@@ -86,7 +86,7 @@ export function LoginPage({ onLogin }: { onLogin: (username: string) => void }) 
             <Button className="login-submit" disabled={loading} type="submit">{loading ? <><span className="button-spinner" />Opening your lab…</> : <>Sign in to L2E LAB <ArrowRight size={18} /></>}</Button>
           </form>
 
-          <div className="demo-access"><div><span>Preview the prototype</span><i /></div><p>No authentication is connected yet. Choose a workspace:</p><div className="demo-access__buttons"><button onClick={() => useDemo('student')}><Braces size={16} /><span><b>Student demo</b><small>amara.okafor</small></span></button><button onClick={() => useDemo('admin')}><ShieldCheck size={16} /><span><b>Admin demo</b><small>admin</small></span></button></div></div>
+          <div className="demo-access"><div><span>Preview the prototype</span><i /></div><p>No authentication is connected yet. Choose a workspace:</p><div className="demo-access__buttons"><button onClick={() => demoLogin('student')}><Braces size={16} /><span><b>Student demo</b><small>amara.okafor</small></span></button><button onClick={() => demoLogin('admin')}><ShieldCheck size={16} /><span><b>Admin demo</b><small>admin</small></span></button></div></div>
 
           <p className="access-note"><LockKeyhole size={14} /> Dashboard access is provisioned by Learn2Earn—there is no public signup.</p>
         </div>

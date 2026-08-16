@@ -1,6 +1,8 @@
 import { lazy, Suspense, type ReactNode } from 'react'
 import { Navigate, Route, Routes, useParams } from 'react-router-dom'
 import { LoaderCircle } from 'lucide-react'
+import { ErrorBoundary } from './components/ErrorBoundary'
+import { ToastProvider } from './context/ToastContext'
 import { PublicProgressProvider } from './public/PublicProgressContext'
 import { PublicLayout, PublicToolLayout } from './public/PublicLayout'
 import { getProjectBySlug } from './public/data'
@@ -10,6 +12,7 @@ import { PublicProjectDetailPage } from './pages/public/PublicProjectDetailPage'
 import { CommunityPage } from './pages/public/CommunityPage'
 import { CommunityDetailPage } from './pages/public/CommunityDetailPage'
 import { MyLearningPage } from './pages/public/MyLearningPage'
+import { AchievementsPage } from './pages/public/AchievementsPage'
 
 const PlaygroundPage = lazy(() => import('./pages/public/PlaygroundPage').then((module) => ({ default: module.PlaygroundPage })))
 const ProjectBuildPage = lazy(() => import('./pages/public/ProjectBuildPage').then((module) => ({ default: module.ProjectBuildPage })))
@@ -46,6 +49,7 @@ function AppRoutes() {
         <Route path="/community" element={<CommunityPage />} />
         <Route path="/community/:id" element={<CommunityDetailPage />} />
         <Route path="/my-learning" element={<MyLearningPage />} />
+        <Route path="/achievements" element={<LazyRoute><AchievementsPage /></LazyRoute>} />
       </Route>
 
       <Route element={<PublicToolLayout />}>
@@ -70,5 +74,13 @@ function AppRoutes() {
 }
 
 export default function App() {
-  return <PublicProgressProvider><AppRoutes /></PublicProgressProvider>
+  return (
+    <ToastProvider>
+      <PublicProgressProvider>
+        <ErrorBoundary>
+          <AppRoutes />
+        </ErrorBoundary>
+      </PublicProgressProvider>
+    </ToastProvider>
+  )
 }

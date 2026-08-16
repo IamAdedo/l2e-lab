@@ -3,6 +3,7 @@ import { basename, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
+import { VitePWA } from 'vite-plugin-pwa'
 
 const pyodideAssetNames = [
   'pyodide.asm.mjs',
@@ -58,7 +59,53 @@ function pyodideAssets(): Plugin {
 }
 
 export default defineConfig({
-  plugins: [react(), pyodideAssets()],
+  plugins: [
+    react(),
+    pyodideAssets(),
+    VitePWA({
+      registerType: 'autoUpdate',
+      manifest: {
+        name: 'L2E LAB — Learn2Earn Learning Workspace',
+        short_name: 'L2E LAB',
+        description: 'A public, password-free browser-based learning workspace for Python programming.',
+        start_url: '/',
+        display: 'standalone',
+        background_color: '#f5f8fc',
+        theme_color: '#0866e8',
+        orientation: 'portrait',
+        icons: [
+          {
+            src: '/learn2earn-logo.svg',
+            sizes: '512x512',
+            type: 'image/svg+xml',
+            purpose: 'any maskable',
+          },
+        ],
+      },
+      includeAssets: ['favicon.ico', 'apple-touch-icon.png'],
+      workbox: {
+        maximumFileSizeToCacheInBytes: 15 * 1024 * 1024,
+        runtimeCaching: [
+          {
+            urlPattern: ({ url }) => url.pathname.startsWith('/pyodide/'),
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'pyodide-runtime',
+              expiration: { maxEntries: 10, maxAgeSeconds: 60 * 60 * 24 * 365 },
+            },
+          },
+          {
+            urlPattern: ({ request }) => request.destination === 'image',
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'images',
+              expiration: { maxEntries: 100, maxAgeSeconds: 60 * 60 * 24 * 30 },
+            },
+          },
+        ],
+      },
+    }),
+  ],
   worker: { format: 'es' },
   optimizeDeps: { exclude: ['pyodide'] },
   server: { port: 5173 },

@@ -1,4 +1,4 @@
-import { ArrowDownRight, ArrowUpRight, BarChart3, BrainCircuit, ChevronDown, Download, Sparkles, Target, TrendingUp, UsersRound } from 'lucide-react'
+import { ArrowDownRight, ArrowUpRight, BrainCircuit, ChevronDown, Download, Sparkles, Target, TrendingUp, UsersRound } from 'lucide-react'
 import { Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import { campusPerformance, performanceByTopic, scoreDistribution } from '../../data'
 import { Button, ProgressBar, StatusBadge } from '../../components/UI'

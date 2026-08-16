@@ -18,6 +18,7 @@ import { Button, Modal } from '../../components/UI'
 import { getProjectBySlug, learningTrackMeta } from '../../public/data'
 import { TrackIcon, trackClass } from '../../public/PublicCards'
 import { usePublicProgress } from '../../public/PublicProgressContext'
+import { useAchievementNotifications } from '../../hooks/useAchievementNotifications'
 import { PythonWorkbench } from '../../public/runtime/PythonWorkbench'
 import { clearProjectDraft, getProjectDraft, saveProjectDraft } from '../../public/runtime/storage'
 import type { StarterFile } from '../../public/types'
@@ -35,6 +36,7 @@ export function ProjectBuildPage() {
   const navigate = useNavigate()
   const project = useMemo(() => getProjectBySlug(slug), [slug])
   const progress = usePublicProgress()
+  useAchievementNotifications()
   const [files, setFiles] = useState<StarterFile[]>(() => project ? cloneFiles(getProjectDraft(project.id)?.files ?? project.starterFiles) : [])
   const [results, setResults] = useState<RequirementResult[]>([])
   const [publishOpen, setPublishOpen] = useState(false)

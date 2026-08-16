@@ -5,11 +5,13 @@ import {
   LayoutGrid,
   Menu,
   Sparkles,
+  Trophy,
   UsersRound,
   X,
 } from 'lucide-react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { Brand } from '../components/Brand'
+import { PwaInstallPrompt } from '../components/PwaInstallPrompt'
 import './public.css'
 import './public-pages.css'
 import './public-detail.css'
@@ -22,6 +24,7 @@ const publicNavigation = [
   { label: 'Playground', to: '/playground', icon: Code2 },
   { label: 'Community', to: '/community', icon: UsersRound },
   { label: 'My learning', to: '/my-learning', icon: Sparkles },
+  { label: 'Achievements', to: '/achievements', icon: Trophy },
 ]
 
 function activeNavClass({ isActive }: { isActive: boolean }) {
@@ -84,6 +87,7 @@ export function PublicLayout() {
       <main className="pl-main">
         <Outlet />
       </main>
+      <PwaInstallPrompt />
     </div>
   )
 }

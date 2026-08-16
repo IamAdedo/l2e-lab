@@ -1,21 +1,18 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import Editor from '@monaco-editor/react'
 import {
   AlertTriangle,
   ArrowLeft,
-  Braces,
   Check,
-  CheckCircle2,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
-  Circle,
   Clock3,
   Cloud,
   Code2,
   Copy,
-  Expand,
   FileCode2,
   FlaskConical,
   GripHorizontal,
@@ -23,7 +20,6 @@ import {
   Laptop2,
   ListChecks,
   LoaderCircle,
-  LockKeyhole,
   Maximize2,
   Menu,
   Minimize2,

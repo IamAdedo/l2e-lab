@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import {
   ArrowLeft,
@@ -12,8 +12,6 @@ import {
   ChevronUp,
   CircleAlert,
   Clock3,
-  Code2,
-  Copy,
   Eye,
   FileCheck2,
   GripVertical,
