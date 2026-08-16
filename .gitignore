@@ -9,5 +9,3 @@ dist/
 .env.*.local
 .vercel/
 .firebase/
-agents.md
-
